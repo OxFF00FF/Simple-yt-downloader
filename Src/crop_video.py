@@ -94,7 +94,8 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
             "-y", output            # Куда сохраняется обрезанный файл
         ]
         subprocess.run(" ".join(yt_dlp_ffmpeg_command), shell=True, check=True)
-        logger.info(f"{LIGHT_GREEN}Видео сохранено по пути: {output}{WHITE}")
+        logger.info(f"{WHITE}File saved to: `{output}` ")
+        os.startfile(output_dir)
 
     except subprocess.CalledProcessError as e:
         logger.error(f"Ошибка при выполнении команды: {e}")

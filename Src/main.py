@@ -24,7 +24,7 @@ if __name__ == '__main__':
         elif choose_type == '2':
             print(f'\n{LIGHT_YELLOW}ℹ️  Выберите начало и конец обрезки в формате: hh:mm:ss. Например: 00:01:20, 01:25:02, 00:00:05{WHITE}')
             input_crop = input(f"{LIGHT_BLUE}▶️  Начало обрезки: {WHITE}")
-            output_crop = input(f"{LIGHT_BLUE}▶️  Конец обрезки:  {WHITE}\n")
+            output_crop = input(f"{LIGHT_BLUE}▶️  Конец обрезки:  {WHITE}")
             download_partial_video(input_url, _format, input_crop, output_crop, title, video_id)
 
         else:
