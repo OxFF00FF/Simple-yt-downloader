@@ -82,5 +82,4 @@ def set_logger(log_name: str = 'app', log_file: str = 'logs.log', console_level=
     return logging.getLogger(log_name)
 
 
-# logger = set_logger('ozp', console_level=logging.DEBUG)
-logger = set_logger('ozp')
+logger = set_logger()
