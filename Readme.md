@@ -4,7 +4,12 @@
 
 Видео скачивается в формат **`mp4+aac`** в папку **`%userprofile%/downloads/YouTube`**
 
-Для работы нужно вставить ссылку на видео в формате **`https://www.youtube.com/watch?v=<video_id>`** и выбрать нужный формат.
+# Быстрый старт
+
+1. Установить зависимости. Запустить файл `INSTALL.bat`
+2. Установить [Windwows terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US)
+3. Запустить `Youtube Video Downloader`
+4. Для работы нужно вставить ссылку на видео в формате **`https://www.youtube.com/watch?v=<video_id>`** и выбрать нужный формат.
 
 ![image](https://github.com/user-attachments/assets/334d5c35-3ff7-4488-b80a-c6c2204f019e)
 
