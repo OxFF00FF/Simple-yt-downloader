@@ -70,7 +70,7 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
 
     output = f'"{os.path.join(output_dir, valid_filename)}"'
     try:
-        logger.info(f"Информация о видео получена. Скачиваем отрывок {LIGHT_YELLOW}{duration}{WHITE} [{CYAN}{start_time} - {end_time}{WHITE}]")
+        logger.info(f"Скачиваем отрывок {LIGHT_YELLOW}{duration}{WHITE} [{CYAN}{start_time} - {end_time}{WHITE}]")
 
         yt_dlp_ffmpeg_command = [
             "yt-dlp",
@@ -82,7 +82,7 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
             "ffmpeg",               # ffmpeg читает эти данные с помощью параметра -i -
             "-hide_banner",         # Скрывает информационное сообщение
             "-loglevel", "quiet",   # Отключает логи ffmpeg
-            # "-hwaccel", "auto",     # Использование аппаратного ускорения
+            "-hwaccel", "auto",     # Использование аппаратного ускорения
             "-ss", input_crop,      # Начало обрезки
             "-to", output_crop,     # Конец обрезки
             "-i", "-",              # Входной поток из yt-dlp
@@ -93,6 +93,7 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
             "-c:a", "aac",          # Перекодируем звук в aac
             "-y", output            # Куда сохраняется обрезанный файл
         ]
+        logger.info(" ".join(yt_dlp_ffmpeg_command))
         subprocess.run(" ".join(yt_dlp_ffmpeg_command), shell=True, check=True)
         logger.info(f"{WHITE}File saved to: `{output}` ")
         os.startfile(output_dir)
