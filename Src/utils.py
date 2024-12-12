@@ -1,14 +1,41 @@
 import json
 import os
+import shutil
+import subprocess
 import sys
 import datetime
 from yt_dlp import YoutubeDL as YoutubeDLP
 from colors import *
+from logging_config import logger
+
+
+def check_ffmpeg():
+    _ffmpeg_path_ = None
+    try:
+        _ffmpeg_path_ = shutil.which("ffmpeg")
+        result = subprocess.run([_ffmpeg_path_, "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if result.returncode == 0:
+            logger.info(f"System FFmpeg executable: `{_ffmpeg_path_}`")
+            return _ffmpeg_path_
+
+    except:
+        try:
+            _ffmpeg_path_ = os.path.join(os.path.dirname(__file__), 'Bin', 'ffmpeg.exe')
+            result = subprocess.run([_ffmpeg_path_, "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            if result.returncode == 0:
+                logger.info(f"Local FFmpeg executable: `{_ffmpeg_path_}`")
+                return _ffmpeg_path_
+
+        except:
+            logger.error(f"FFmpeg не установлен в системе и не найден по пути: `{_ffmpeg_path_}`")
+            logger.warning("Скачайте и установите FFmpeg с официального сайта: `https://www.ffmpeg.org/download.html` или поместите `ffmpeg.exe` в папку `Src/Bin`")
+            sys.exit()
+
 
 user_profile = os.path.expandvars("%userprofile%")
 user_downloads_dir = os.path.join(user_profile, 'downloads')
 output_dir = os.path.join(user_downloads_dir, 'YouTube')
-ffmpeg_path = os.path.join(os.path.dirname(__file__), 'Bin', 'ffmpeg.exe')
+ffmpeg_path = check_ffmpeg()
 
 
 def draw_art(text):
