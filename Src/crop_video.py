@@ -7,20 +7,21 @@ import humanize as humanize
 
 from colors import *
 from logging_config import logger
+from utils import output_dir, ffmpeg_path
 
 
-def download_partial_video(url: str, format_code, input_crop: str = None, output_crop: str = None, title: str = None, video_id=None):
+def download_partial_video(url: str, format_code: str, input_crop: str = None, output_crop: str = None, title: str = None, video_id=None):
     """
     Скачивает часть видео с YouTube с помощью yt-dlp и ffmpeg.
     Принимает URL видео (https://www.youtube.com/watch?v=<video_id>)
     И временные метки в формате hh:mm:ss
 
-    :param title:
-    :param video_id:
-    :param format_code:
+    :param url: Ссылка на видео на YouTube
+    :param format_code: Код формата video+audio (134+bestaudio[ext=m4a])
     :param input_crop: Начальная метка
     :param output_crop: Конечная метка
-    :param url: Ссылка на видео на YouTube.
+    :param title: Название видео, полученное из yt-dlp -> extract_info(url, download=False).get('title')
+    :param video_id: Идентификатор видео
     """
     i, o = input_crop.replace(':', '-'), output_crop.replace(':', '-')
 
@@ -50,10 +51,6 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
         logger.error(f'Не удалось преобразовать временные метки в дату: {LIGHT_RED}{e}{WHITE}!')
         sys.exit()
 
-    user_profile = os.path.expandvars("%userprofile%")
-    user_downloads_dir = os.path.join(user_profile, 'downloads')
-    output_dir = os.path.join(user_downloads_dir, 'YouTube')
-
     # yt_dlp_command = [
     #     "yt-dlp",
     #     "--quiet",                      # Отключает логи yt-dlp
@@ -70,8 +67,7 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
 
     output = f'"{os.path.join(output_dir, valid_filename)}"'
     try:
-        logger.info(f"Скачиваем отрывок {LIGHT_YELLOW}{duration}{WHITE} [{CYAN}{start_time} - {end_time}{WHITE}]")
-
+        logger.info(f"Скачивается отрывок: {LIGHT_YELLOW}{duration}{WHITE} [{CYAN}{start_time} - {end_time}{WHITE}]")
         yt_dlp_ffmpeg_command = [
             "yt-dlp",
             "--quiet",              # Отключает логи yt-dlp
@@ -79,7 +75,7 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
             url,                    # Ссылка на видео
             "-o", "-",              # Вывод видео в stdout
             "|",                    # Перенаправлят вывод из stdout в ffmpeg
-            "ffmpeg",               # ffmpeg читает эти данные с помощью параметра -i -
+            f'"{ffmpeg_path}"',     # ffmpeg читает эти данные с помощью параметра -i -
             "-hide_banner",         # Скрывает информационное сообщение
             "-loglevel", "quiet",   # Отключает логи ffmpeg
             "-hwaccel", "auto",     # Использование аппаратного ускорения
@@ -93,10 +89,12 @@ def download_partial_video(url: str, format_code, input_crop: str = None, output
             "-c:a", "aac",          # Перекодируем звук в aac
             "-y", output            # Куда сохраняется обрезанный файл
         ]
-        logger.info(" ".join(yt_dlp_ffmpeg_command))
-        subprocess.run(" ".join(yt_dlp_ffmpeg_command), shell=True, check=True)
+        compiled_command = " ".join(yt_dlp_ffmpeg_command)
+        logger.info(f"Команда: {compiled_command}")
+        subprocess.run(compiled_command, shell=True, check=True)
         logger.info(f"{WHITE}File saved to: `{output}` ")
         os.startfile(output_dir)
+        return output
 
     except subprocess.CalledProcessError as e:
         logger.error(f"Ошибка при выполнении команды: {e}")

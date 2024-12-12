@@ -4,8 +4,9 @@ from banner import create_banner
 
 from colors import *
 from crop_video import download_partial_video
-from full_video import video_info, download_video
+from full_video import download_full_video
 from logging_config import logger
+from utils import video_info
 
 if __name__ == '__main__':
     # standard, slant, pepper, cybermedium, ansi_shadow
@@ -19,7 +20,7 @@ if __name__ == '__main__':
         choose_type = input(f"{LIGHT_BLUE}▶️  Выберите вариант ({WHITE}1/2{LIGHT_BLUE}): {WHITE}")
 
         if choose_type == '1':
-            download_video(input_url, _format)
+            download_full_video(input_url, _format)
 
         elif choose_type == '2':
             print(f'\n{LIGHT_YELLOW}ℹ️  Выберите начало и конец обрезки в формате: hh:mm:ss. Например: 00:01:20, 01:25:02, 00:00:05{WHITE}')
