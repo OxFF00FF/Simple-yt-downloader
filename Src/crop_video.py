@@ -66,6 +66,7 @@ def download_partial_video(url: str, format_code: str, input_crop: str = None, o
     valid_filename = filename.translate(translation_table)
 
     output = f'"{os.path.join(output_dir, valid_filename)}"'
+    output_strip = output.strip('"')
     try:
         logger.info(f"Скачивается отрывок: {LIGHT_YELLOW}{duration}{WHITE} [{CYAN}{start_time} - {end_time}{WHITE}]")
         yt_dlp_ffmpeg_command = [
@@ -90,11 +91,14 @@ def download_partial_video(url: str, format_code: str, input_crop: str = None, o
             "-y", output            # Куда сохраняется обрезанный файл
         ]
         compiled_command = " ".join(yt_dlp_ffmpeg_command)
-        logger.info(f"Команда: {compiled_command}")
+        logger.debug(f"Command: {compiled_command}")
+
         subprocess.run(compiled_command, shell=True, check=True)
-        logger.info(f"{WHITE}File saved to: `{output}` ")
+
+        logger.info(f"{WHITE}File saved to: `{output_strip}` ")
         os.startfile(output_dir)
-        return output
+        return output_strip
 
     except subprocess.CalledProcessError as e:
         logger.error(f"Ошибка при выполнении команды: {e}")
+        input('\n\nНажмите любую клавишу для выхода...')

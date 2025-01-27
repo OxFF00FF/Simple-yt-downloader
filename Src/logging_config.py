@@ -6,6 +6,7 @@ from logging.handlers import RotatingFileHandler
 
 from colors import *
 
+
 def set_logger(log_name: str = 'app', log_file: str = 'logs.log', console_level=logging.INFO, file_level=logging.DEBUG):
     class ColorFormatter(logging.Formatter):
         LEVEL_COLORS = {
@@ -66,7 +67,6 @@ def set_logger(log_name: str = 'app', log_file: str = 'logs.log', console_level=
     console_handler = logging.StreamHandler()
     color_formatter = ColorFormatter()
     console_handler.setFormatter(color_formatter)
-
 
     # Console handler
     console_handler.setLevel(console_level)
