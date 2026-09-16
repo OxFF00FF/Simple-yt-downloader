@@ -2,21 +2,19 @@
 
 Загрузчик видео и аудио с ютюба.
 
-Видео скачивается в формат **`mp4+aac`** в папку **`%userprofile%/downloads/YouTube`**
+# Установка
+1. Установить [Windwows terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US)
+2. Скачать и установить проект `git clone https://github.com/OxFF00FF/Simple-yt-downloader && cd Simple-yt-downloader && INSTALL.bat`
+3. Запустить ярлык `Youtube Video Downloader`
 
-# Быстрый старт
-
-1. Установить зависимости. Запустить файл `INSTALL.bat`
-2. Установить [Windwows terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US)
-3. Запустить `Youtube Video Downloader`
-4. Для работы нужно вставить ссылку на видео в формате **`https://www.youtube.com/watch?v=<video_id>`** и выбрать нужный формат.
+# Как это работает
+Нужно вставить ссылку на видео например `https://www.youtube.com/watch?v=<video_id>`, нажать Enter и выбрать нужный формат исользуя номер формата.
 
 ![image](https://github.com/user-attachments/assets/334d5c35-3ff7-4488-b80a-c6c2204f019e)
-
 
 Есть возможность скачать только часть видео.
 Для этого нужно выбрать соответствующий пунк после выбора формата, а так же указать начальную и конечную метку в формате **`hh:mm:ss`**
 
 ![image](https://github.com/user-attachments/assets/e3dd05b9-cd1b-4d11-830e-64a836318aa7)
 
-Для красивого отображения нужно установить Windows Terminal. Установщик лежит в папке **`WT setup`**
+Видео скачивается в формате **`mp4+aac`** в папку **`%userprofile%/Downloads/YouTube`**
