@@ -5,8 +5,9 @@ import subprocess
 import sys
 import datetime
 from yt_dlp import YoutubeDL as YoutubeDLP
-from colors import *
-from logging_config import logger
+
+from Src.colors import *
+from Src.logging_config import logger
 
 
 def check_ffmpeg():

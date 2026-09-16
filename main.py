@@ -1,16 +1,17 @@
 import sys
 
-from banner import create_banner
+from Src.colors import *
+from Src.crop_video import download_partial_video
+from Src.full_video import download_full_video
+from Src.logging_config import logger
+from Src.banner import create_banner
+from Src.terminal import run_in_terminal
+from Src.utils import video_info
 
-from colors import *
-from crop_video import download_partial_video
-from full_video import download_full_video
-from logging_config import logger
-from utils import video_info
 
-if __name__ == '__main__':
+def main():
     # standard, slant, pepper, cybermedium, ansi_shadow
-    create_banner([['Yt', f"{BOLD}{LIGHT_RED}"], ['DL', f"{BOLD}{WHITE}"]], font='standard', show=True)
+    create_banner([['Yt', f"{BOLD}{LIGHT_RED}"], ['DL', f"{BOLD}{WHITE}"]], show=True)
 
     try:
         input_url = input(f"{LIGHT_BLUE}▶️  Вставьте ссылку на YouTube видео: {WHITE}")
@@ -34,3 +35,8 @@ if __name__ == '__main__':
 
     except Exception as e:
         logger.error(e)
+
+
+if __name__ == '__main__':
+    run_in_terminal()
+    main()

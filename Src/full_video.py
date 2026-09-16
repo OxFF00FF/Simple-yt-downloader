@@ -2,9 +2,9 @@ import os
 
 from yt_dlp import YoutubeDL as YoutubeDLP
 
-from colors import *
-from logging_config import logger
-from utils import output_dir, ffmpeg_path, check_dirs, validate_url
+from Src.colors import *
+from Src.logging_config import logger
+from Src.utils import output_dir, ffmpeg_path, check_dirs, validate_url
 
 os.system("")
 

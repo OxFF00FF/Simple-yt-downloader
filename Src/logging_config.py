@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
 
-from colors import *
+from Src.colors import *
 
 
 def set_logger(log_name: str = 'app', log_file: str = 'logs.log', console_level=logging.INFO, file_level=logging.DEBUG):

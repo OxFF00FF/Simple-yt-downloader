@@ -1,6 +1,6 @@
 from pyfiglet import parse_color, figlet_format
 
-from colors import *
+from Src.colors import *
 
 
 def get_figlet_text(text, font=None, colors=":", **kwargs):

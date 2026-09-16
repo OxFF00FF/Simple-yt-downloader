@@ -5,9 +5,9 @@ from datetime import datetime
 
 import humanize as humanize
 
-from colors import *
-from logging_config import logger
-from utils import output_dir, ffmpeg_path
+from Src.colors import *
+from Src.logging_config import logger
+from Src.utils import output_dir, ffmpeg_path
 
 
 def download_partial_video(url: str, format_code: str, input_crop: str = None, output_crop: str = None, title: str = None, video_id=None):
@@ -60,6 +60,7 @@ def download_partial_video(url: str, format_code: str, input_crop: str = None, o
     # ]
     # result = subprocess.run(yt_dlp_command, capture_output=True, text=True, encoding="utf-8")
     # title, video_id = result.stdout.splitlines()
+    # ffmpeg -ss 80 -t 220 -i xYf-GJnvb3E.webm -y -c copy video-80-220-xYf-GJnvb3E.mp4
 
     filename = f"[{i}__{o}] {title} ({video_id}).mp4"
     translation_table = str.maketrans('', '', '/\\:*?"<>|')
@@ -67,28 +68,29 @@ def download_partial_video(url: str, format_code: str, input_crop: str = None, o
 
     output = f'"{os.path.join(output_dir, valid_filename)}"'
     output_strip = output.strip('"')
+
     try:
         logger.info(f"Скачивается отрывок: {LIGHT_YELLOW}{duration}{WHITE} [{CYAN}{start_time} - {end_time}{WHITE}]")
         yt_dlp_ffmpeg_command = [
             "yt-dlp",
-            "--quiet",              # Отключает логи yt-dlp
-            "-f", format_code,      # Выбор формата (format_id Видео + лучшее аудио в формате m4a)
-            url,                    # Ссылка на видео
-            "-o", "-",              # Вывод видео в stdout
-            "|",                    # Перенаправлят вывод из stdout в ffmpeg
-            f'"{ffmpeg_path}"',     # ffmpeg читает эти данные с помощью параметра -i -
-            "-hide_banner",         # Скрывает информационное сообщение
-            "-loglevel", "quiet",   # Отключает логи ffmpeg
-            "-hwaccel", "auto",     # Использование аппаратного ускорения
-            "-ss", input_crop,      # Начало обрезки
-            "-to", output_crop,     # Конец обрезки
-            "-i", "-",              # Входной поток из yt-dlp
-            "-map", "0:v",          # Выбирает видеопоток из первого входного файла.
-            "-map", "0:a",          # Выбирает аудиопоток из первого входного файла.
-            "-c:v", "libx264",      # Перекодируем видео в H.264
-            "-crf", "23",           # Качества видео для кодека H.264 (0-51). Лучшее соотношение размера и сжатия (28/23/18)
-            "-c:a", "aac",          # Перекодируем звук в aac
-            "-y", output            # Куда сохраняется обрезанный файл
+            "--quiet",  # Отключает логи yt-dlp
+            "-f", format_code,  # Выбор формата (format_id Видео + лучшее аудио в формате m4a)
+            url,  # Ссылка на видео
+            "-o", "-",  # Вывод видео в stdout
+            "|",  # Перенаправлят вывод из stdout в ffmpeg
+            f'"{ffmpeg_path}"',  # ffmpeg читает эти данные с помощью параметра -i -
+            "-hide_banner",  # Скрывает информационное сообщение
+            "-loglevel", "quiet",  # Отключает логи ffmpeg
+            "-hwaccel", "auto",  # Использование аппаратного ускорения
+            "-ss", input_crop,  # Начало обрезки
+            "-to", output_crop,  # Конец обрезки
+            "-i", "-",  # Входной поток из yt-dlp
+            "-map", "0:v",  # Выбирает видеопоток из первого входного файла.
+            "-map", "0:a",  # Выбирает аудиопоток из первого входного файла.
+            "-c:v", "libx264",  # Перекодируем видео в H.264
+            "-crf", "23",  # Качества видео для кодека H.264 (0-51). Лучшее соотношение размера и сжатия (28/23/18)
+            "-c:a", "aac",  # Перекодируем звук в aac
+            "-y", output  # Куда сохраняется обрезанный файл
         ]
         compiled_command = " ".join(yt_dlp_ffmpeg_command)
         logger.debug(f"Command: {compiled_command}")
